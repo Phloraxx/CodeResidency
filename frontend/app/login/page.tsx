@@ -13,7 +13,10 @@ function LoginContent() {
     const [isGitHubLoading, setIsGitHubLoading] = useState(false);
 
     useEffect(() => {
-        setIsLoaded(true);
+        // Wait one frame so the initial styles are committed before the
+        // transition to the loaded state, instead of setting state during mount.
+        const frame = requestAnimationFrame(() => setIsLoaded(true));
+        return () => cancelAnimationFrame(frame);
     }, []);
 
     const handleGoogleLogin = async () => {
